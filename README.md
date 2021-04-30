@@ -8,3 +8,5 @@ Spring Boot<br>
 Spring Security<br>
 Thymeleaf<br>
 H2 database<br>
+Slf4J<br>
+JUnit5
