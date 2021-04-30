@@ -2,9 +2,9 @@
 final project at the school of programming TMS
 Web application for placing ads for the sale of motorcycles.
 
-Stack:
+Stack:<br>
 Java 8<br>
-Spring Boot,  
-Spring Security,
-Thymeleaf,
-H2 database.
+Spring Boot<br> 
+Spring Security<br>
+Thymeleaf<br>
+H2 database<br>
