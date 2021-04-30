@@ -1,5 +1,5 @@
 # diploma-tms-motostore
-final project at the school of programming TMS
+final project at the school of programming TMS.<br>
 Web application for placing ads for the sale of motorcycles.
 
 Stack:<br>
