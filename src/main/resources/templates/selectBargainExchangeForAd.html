@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>BargExchange Selection</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Select Brand</li>
+        <li class="breadcrumb-item active" aria-current="page">Select Model</li>
+        <li class="breadcrumb-item active" aria-current="page">Select Characteristics</li>
+        <li class="breadcrumb-item active" aria-current="page">Bargain & Exchange</li>
+    </ol>
+</nav>
+<div class="container" style="text-align: -webkit-center">
+<form th:action="@{/ad/create}" th:object="${newAnnouncement}" method="post">
+    <div class="mb-3" style="width: 25%">
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" th:field="*{bargain}" id="flexSwitchCheckBargain">
+            <label class="form-check-label" for="flexSwitchCheckBargain">BARGAIN</label>
+        </div>
+        <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" th:field="*{exchange}" id="flexSwitchCheckExchange">
+            <label class="form-check-label" for="flexSwitchCheckExchange">EXCHANGE</label>
+        </div>
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">COMMENTS</label>
+            <textarea class="form-control" id="exampleFormControlTextarea1" name="comment" th:field="*{comments}" rows="3"></textarea>
+        </div>
+        <button type="submit" class="btn btn-secondary">SET</button>
+    </div>
+</form>
+</div>
+</body>
+</html>

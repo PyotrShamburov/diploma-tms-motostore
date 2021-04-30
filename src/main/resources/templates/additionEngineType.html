@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Engine Type</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-4" th:include="_adminSideMenu.html">
+        </div>
+        <div class="col-6">
+            <form th:action="@{/admin/motorcycle/engine}" th:object="${newEngineType}" method="post">
+                <div class="mb-3" style="width: 60%">
+                    <label style="text-align: left" class="form-label">ENGINE TYPE</label>
+                    <input type="text" class="form-control" th:field="*{nameOfEngineType}" placeholder="name of engine type">
+                </div>
+                <button type="submit" class="btn btn-outline-secondary">Create</button>
+                <p style="color: red" th:if="${#fields.hasErrors('nameOfEngineType')}" th:errors="*{nameOfEngineType}"></p>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+            <div class="col" th:each="engineType : ${engineTypes}">
+                <div class="p-3 border bg-light" style="text-align: center">
+                    <a th:text="${engineType.nameOfEngineType}"></a>
+                    <form th:action="@{/admin/motorcycle/engine/delete}" method="post">
+                        <input type="hidden" name="engineTypeId" th:value="${engineType.id}">
+                        <button type="submit" class="btn-close" aria-label="Close"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

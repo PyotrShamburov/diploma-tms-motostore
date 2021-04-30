@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<div class="p-3 mb-2 bg-light text-dark">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-8" >
+                <p class="fw-bolder">
+                    SEARCH FORM
+                </p>
+                <form class="row g-3" th:action="@{/ad/search}" th:object="${newSearchAdDTO}" method="post">
+                    <div class="col-md-3">
+                        <p class="fst-italic">BRAND</p>
+                        <select class="form-select" aria-label="Default select example" th:field="*{brandStartId}">
+                            <option th:value="0">ALL</option>
+                            <option th:each="brand : ${allBrands}"
+                                    th:value="${brand.id}"
+                                    th:text="${brand.nameOfBrand}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="fst-italic">TYPE</p>
+                        <select  class="form-select" aria-label="Default select example" th:field="*{typeStartId}">
+                            <option th:value="0">ALL</option>
+                            <option th:each="motoType : ${allTypes}"
+                                    th:value="${motoType.id}"
+                                    th:text="${motoType.nameOfMotorcycleType}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <p class="fst-italic">DRIVE TYPE</p>
+                        <select class="form-select" aria-label="Default select example" th:field="*{driveTypeStartId}">
+                            <option th:value="0">ALL</option>
+                            <option th:each="driveType : ${allDriveTypes}"
+                                    th:value="${driveType.id}"
+                                    th:text="${driveType.nameOfDriveType}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-3">
+                        <p class="fst-italic">ENGINE TYPE</p>
+                        <select class="form-select" aria-label="Default select example" th:field="*{engineTypeStartId}">
+                            <option th:value="0">ALL</option>
+                            <option th:each="engineType : ${allEngineTypes}"
+                                    th:value="${engineType.id}"
+                                    th:text="${engineType.nameOfEngineType}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="fst-italic">CONDITION</p>
+                        <select class="form-select" aria-label="Default select example" th:field="*{conditionStartId}">
+                            <option th:value="0">ALL</option>
+                            <option th:each="condition : ${allConditions}"
+                                    th:value="${condition.id}"
+                                    th:text="${condition.nameOfCondition}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="fst-italic">PRICE MIN</p>
+                        <select class="form-select" aria-label="Default select example" th:field="*{lowestPrice}">
+                            <option th:each="price : ${#numbers.sequence(0, 100000, 500)}"
+                                    th:value="${price}"
+                                    th:text="${price}">
+                            </option>
+                        </select>
+                        <p class="fst-italic">PRICE MAX</p>
+                        <select class="form-select" aria-label="Default select example" th:field="*{highestPrice}">
+                            <option th:each="price : ${#numbers.sequence(0, 100000, 500)}"
+                                    th:value="${price}"
+                                    th:text="${price}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="fst-italic">YEAR MIN</p>
+                        <select class="form-select" aria-label="Default select example" th:field="*{lowestYearOfIssue}">
+                            <option th:each="year : ${#numbers.sequence(1980, 2021, 1)}"
+                                    th:value="${year}"
+                                    th:text="${year}">
+                            </option>
+                        </select>
+                        <p class="fst-italic">YEAR MAX</p>
+                        <select class="form-select" aria-label="Default select example" th:field="*{highestYearOfIssue}">
+                            <option th:each="year : ${#numbers.sequence(1980, 2021, 1)}"
+                                    th:value="${year}"
+                                    th:text="${year}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <p class="fst-italic">ENGINE VOLUME MIN</p>
+                        <select class="form-select" aria-label="Default select example" th:field="*{lowestEngineVolume}">
+                            <option th:each="volume : ${#numbers.sequence(0, 1800, 100)}"
+                                    th:value="${volume}"
+                                    th:text="${volume}">
+                            </option>
+                        </select>
+                        <p class="fst-italic">ENGINE VOLUME MAX</p>
+                        <select class="form-select" aria-label="Default select example" th:field="*{highestEngineVolume}">
+                            <option th:each="volume : ${#numbers.sequence(0, 1800, 100)}"
+                                    th:value="${volume}"
+                                    th:text="${volume}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-outline-dark">USE FILTER AND SEARCH</button>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-check" style="text-align: left">
+                            <a th:href="@{/ad/show/all}" class="btn btn-outline-dark">WATCH ALL ANNOUNCEMENTS</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-4">
+                <p class="fw-bolder">
+                    OUR PARTNER
+                </p>
+                <a href="https://www.motul.com/by/ru">
+                    <img src="https://res.cloudinary.com/dh6qfegkp/image/upload/v1619555102/Motul_SBK_Mercado2015_knbvmp.jpg"
+                         class="d-block w-100" alt="...">
+                </a>
+            </div>
+        </div>
+        <div class="container">
+            <p class="fw-bolder">
+                THESE ANNOUNCEMENTS CAN BE INTERESTING FOR YOU
+            </p>
+        </div>
+        <div class="row" >
+            <div class="col-sm" th:each="ad : ${listOfTopAd}">
+                <div class="card" style="width: 18rem;">
+                    <img th:src="${ad.getPhotos().get(0).url}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a th:text="${ad.getMotorcycle().brand.nameOfBrand}"></a>
+                            <a th:text="${ad.getMotorcycle().model.nameOfModel}"></a>,
+                            <a th:text="${ad.getMotorcycle().engineVolume}"></a>
+                        </h5>
+                        <p class="card-text">
+                            <a th:text="${ad.getMotorcycle().typeOfMotorcycle.nameOfMotorcycleType}"></a>,
+                            <a th:text="${ad.getMotorcycle().driveType.nameOfDriveType}"></a>,
+                            <a th:text="${ad.getMotorcycle().engineDesignType.nameOfEngineType}"></a>,
+                            <a th:text="${ad.getMotorcycle().yearOfIssue}"></a>,
+                            <a th:text="${ad.getMotorcycle().condition.nameOfCondition}"></a>.
+                            <hr>
+                        <a th:text="${ad.getPrice().value}"></a>
+                        <a th:text="${ad.getPrice().currency}"></a>
+                        </p>
+                        <a th:href="@{'/ad/show/'+${ad.getId()}}" class="btn btn-secondary">Watch it!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

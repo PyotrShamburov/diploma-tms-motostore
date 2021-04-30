@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Price</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Select Brand</li>
+        <li class="breadcrumb-item active" aria-current="page">Select Model</li>
+        <li class="breadcrumb-item active" aria-current="page">Select Characteristics</li>
+        <li class="breadcrumb-item active" aria-current="page">Bargain & Exchange</li>
+        <li class="breadcrumb-item active" aria-current="page">Set Price</li>
+    </ol>
+</nav>
+<div class="container" style="text-align: -webkit-center">
+    <form th:action="@{/ad/price}" th:object="${newPrice}" method="post">
+        <div class="mb-3" style="width: 25%">
+            <div class="mb-3">
+                <label class="form-label">CURRENCY</label>
+                <select class="form-select" aria-label="Default select example" th:field="*{currency}">
+                    <option th:each="currency : ${currencyList}"
+                            th:value="${currency.name()}"
+                            th:text="${currency.name()}">
+                    </option>
+                </select>
+                <br>
+                <label style="text-align: left" class="form-label">PRICE</label>
+                <input type="number" class="form-control" th:field="*{value}">
+            </div>
+            <br>
+            <button type="submit" class="btn btn-secondary">SET</button>
+            <p style="color: red" th:if="${#fields.hasErrors('value')}" th:errors="*{value}"></p>
+        </div>
+    </form>
+</div>
+</body>
+</html>

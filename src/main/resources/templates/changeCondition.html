@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Condition</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<div class="alert alert-success" role="alert" th:if="${isUpdated}">
+    <h4 class="alert-heading">Congrats!</h4>
+    <p>Condition has been successfully changed!</p>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-4" th:include="_userSideMenu.html">
+        </div>
+        <div class="col-6">
+            <p class="fw-bolder" >CURRENT CONDITION:</p>
+            <p class="fw-bolder" th:text="${currentCondition.nameOfCondition}"></p>
+            <form th:action="@{/user/ad/edit/condition}" th:object="${newMotoDTO}" method="post">
+                <div class="mb-3" style="width: 60%">
+                    <label style="text-align: left" class="form-label">New mileage</label>
+                    <select class="form-select" aria-label="Default select example" th:field="*{conditionId}">
+                        <option th:each="condition : ${allConditions}"
+                                th:value="${condition.id}"
+                                th:text="${condition.nameOfCondition}">
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-outline-success">Save changes!</button>
+            </form>
+            <br>
+            <div class="form-check" style="text-align: left">
+                <a th:href="@{'/user/ad/edit/'+${adId}}" class="btn btn-outline-dark">GO BACK</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

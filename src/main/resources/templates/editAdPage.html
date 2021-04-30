@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ad settings</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<div class="alert alert-success" role="alert" th:if="${isUpdated}" style="alignment: center">
+    <h4 class="alert-heading">Congrats!</h4>
+    <p>Comments has been successfully changed!</p>
+</div>
+<div class="container" th:object="${ad}">
+    <input th:name="adId" type="hidden" th:value="${ad.getId()}">
+    <div class="row">
+        <div class="col-4" th:include="_userSideMenu.html">
+        </div>
+        <div class="col-6">
+            <p class="fw-bolder">
+                YOU CAN CHANGE SOME FIELDS OF YOUR ANNOUNCEMENT
+            </p>
+            <ol class="list-group list-group-numbered">
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">BRAND</div>
+                    </div>
+                    <span class="text">
+                        <a th:text="${ad.getMotorcycle().brand.nameOfBrand}"></a>
+                    </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">MODEL</div>
+                    </div>
+                    <span class="text">
+                        <a th:text="${ad.getMotorcycle().model.nameOfModel}"></a>
+                    </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">TYPE</div>
+                    </div>
+                    <span class="text">
+                        <a th:text="${ad.getMotorcycle().typeOfMotorcycle.nameOfMotorcycleType}"></a>
+                    </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">YEAR OF ISSUE</div>
+                    </div>
+                    <span class="text">
+                        <a th:text="${ad.getMotorcycle().yearOfIssue}"></a> y.i.
+                    </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">DRIVE TYPE</div>
+                    </div>
+                    <span class="text">
+                        <a th:text="${ad.getMotorcycle().driveType.nameOfDriveType}"></a>
+                    </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">ENGINE TYPE</div>
+                    </div>
+                    <span class="text">
+                        <a th:text="${ad.getMotorcycle().engineDesignType.nameOfEngineType}"></a>
+                    </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">ENGINE VOLUME</div>
+                    </div>
+                    <span class="text">
+                        <a th:text="${ad.getMotorcycle().engineVolume}"></a> cyb.cm
+                    </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">CYLINDERS AMOUNT</div>
+                    </div>
+                    <span class="text">
+                        <a th:text="${ad.getMotorcycle().cylindersAmount}"></a>
+                    </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">MILEAGE</div>
+                    </div>
+                    <span class="text">
+                        <a th:text="${ad.getMotorcycle().mileage}"></a> km.
+                        <br>
+                        <a th:href="@{/user/ad/edit/mileage}">
+                        <p>Change</p>
+                        </a>
+                    </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">CONDITION</div>
+                    </div>
+                    <span class="text">
+                        <a th:text="${ad.getMotorcycle().condition.nameOfCondition}"></a>
+                        <br>
+                        <a th:href="@{/user/ad/edit/condition}">
+                        <p>Change</p>
+                        </a>
+                    </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">PRICE</div>
+                    </div>
+                    <span class="text">
+                        <a th:text="${ad.getPrice().value}"></a>
+                        <a th:text="${ad.getPrice().currency}"></a>
+                        <br>
+                        <a th:href="@{/user/ad/edit/price}">
+                            <p>Change</p>
+                        </a>
+
+                    </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">OWNER INFO</div>
+                    </div>
+                    <span class="text">
+                        <a th:text="${ad.getOwner().name}"></a>
+                        <br>
+                        <a th:text="${ad.getOwner().city}"></a>
+                        <br>
+                        <a th:text="${ad.getOwner().phoneNumber}"></a>
+                        <br>
+                        <a th:href="@{/user/ad/edit/owner}">
+                            <p>Change</p>
+                        </a>
+                    </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">PHOTOS</div>
+                        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+                            <div class="col" th:each="photo : ${ad.getPhotos()}">
+                                <img th:src="${photo.url}" class="img-thumbnail" alt="...">
+                            </div>
+                        </div>
+                    </div>
+                    <span class="text">
+                        <a th:href="@{/user/ad/edit/photo}">
+                            <p>Change</p>
+                        </a>
+                    </span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-start">
+                    <div class="ms-2 me-auto">
+                        <div class="fw-bold">COMMENTS</div>
+                        <form th:action="@{/user/ad/edit}" th:method="post">
+                            <label style="text-align: left" class="form-label">NEW COMMENTS</label>
+                            <textarea class="form-control" th:name="comment" th:text="${ad.getComments()}" rows="5"></textarea>
+                            <button type="submit" class="btn btn-outline-secondary">SAVE CHANGES</button>
+                        </form>
+                    </div>
+                </li>
+            </ol>
+        </div>
+    </div>
+</div>
+</body>
+</html>

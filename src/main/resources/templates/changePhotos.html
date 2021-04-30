@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Photos</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<div class="alert alert-success" role="alert" th:if="${isUpdated}">
+    <h4 class="alert-heading">Congrats!</h4>
+    <p>Photos has been successfully changed!</p>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-4" th:include="_userSideMenu.html">
+        </div>
+        <div class="col-6">
+            <form th:action="@{/user/ad/edit/photo/add}" enctype="multipart/form-data" method="post">
+                <div class="mb-3" style="width: 70%">
+                    <div class="input-group">
+                        <input type="file" name="file" class="form-control" id="inputGroupFile04"
+                               aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                    </div>
+                    <button type="submit" class="btn btn-secondary">ADD</button>
+                </div>
+            </form>
+            <div class="container">
+                <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+                    <div class="col" th:each="photo : ${photos}">
+                        <div class="p-3 border bg-light" style="text-align: center">
+                            <img th:src="${photo.url}" class="img-thumbnail" alt="...">
+                            <form th:action="@{/user/ad/edit/photo/delete}" method="post">
+                                <input type="hidden" name="photoId" th:value="${photo.id}">
+                                <button type="submit" class="btn-close" aria-label="Close"></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container" style="alignment: center">
+                <form th:action="@{/user/ad/edit/photo/finish}" method="post">
+                    <button type="submit" class="btn btn-outline-secondary">FINISH PHOTO EDITING</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

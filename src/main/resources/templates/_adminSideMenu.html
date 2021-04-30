@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AdminSideMenu</title>
+</head>
+<body>
+<ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <a class="nav-link disabled" aria-current="page">Available to add:</a>
+    </li>
+    <li class="list-group-item">
+        <a class="nav-link active" aria-current="page" th:href="@{/admin/motorcycle/brand}">BRAND</a>
+    </li>
+    <li class="list-group-item">
+        <a class="nav-link" th:href="@{/admin/motorcycle/model}">MODEL</a>
+    </li>
+    <li class="list-group-item">
+        <a class="nav-link" th:href="@{/admin/motorcycle/type}">TYPE</a>
+    </li>
+    <li class="list-group-item">
+        <a class="nav-link" th:href="@{/admin/motorcycle/engine}">ENGINE TYPE</a>
+    </li>
+    <li class="list-group-item">
+        <a class="nav-link" th:href="@{/admin/motorcycle/drive}">DRIVE TYPE</a>
+    </li>
+    <li class="list-group-item">
+        <a class="nav-link" th:href="@{/admin/motorcycle/condition}">CONDITION</a>
+    </li>
+</ul>
+</body>
+</html>

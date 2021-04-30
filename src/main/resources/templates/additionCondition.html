@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Condition</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-4" th:include="_adminSideMenu.html">
+        </div>
+        <div class="col-6">
+            <form th:action="@{/admin/motorcycle/condition}" th:object="${newCondition}" method="post">
+                <div class="mb-3" style="width: 60%">
+                    <label style="text-align: left" class="form-label">CONDITION</label>
+                    <input type="text" class="form-control" th:field="*{nameOfCondition}" placeholder="name of condition">
+                </div>
+                <button type="submit" class="btn btn-outline-secondary">Create</button>
+                <p style="color: red" th:if="${#fields.hasErrors('nameOfCondition')}" th:errors="*{nameOfCondition}"></p>
+            </form>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+            <div class="col" th:each="condition : ${conditions}">
+                <div class="p-3 border bg-light" style="text-align: center">
+                    <a th:text="${condition.nameOfCondition}"></a>
+                    <form th:action="@{/admin/motorcycle/condition/delete}" method="post">
+                        <input type="hidden" name="conditionId" th:value="${condition.id}">
+                        <button type="submit" class="btn-close" aria-label="Close"></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

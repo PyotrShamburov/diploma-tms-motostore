@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Announcement</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-9">
+            <h2>
+                <span type="text" th:text="${motorcycle.brand.nameOfBrand}"></span>
+                <span type="text" th:text="${motorcycle.model.nameOfModel}"></span>
+                <span type="text" th:text="${motorcycle.engineVolume}"></span>,
+                <span type="text" th:text="${motorcycle.yearOfIssue}"></span>
+            </h2>
+        </div>
+        <div class="col-9">
+            <h6>№:
+                <span type="text" th:text="${adId}"></span>
+                Date of publishing:
+                <span type="text" th:text="${dateOfPublishing}"></span>
+            </h6>
+        </div>
+        <div class="col-4" style="width: 30%">
+            <div class="container">
+               <h4> <span class="text" th:text="${price.value}"></span>
+                <span class="text" th:text="${price.currency}"></span>
+               </h4>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    Type
+                    <span class="text" th:text="${motorcycle.typeOfMotorcycle.nameOfMotorcycleType}"></span>
+                </li>
+                <li class="list-group-item">
+                    Year Of Issue
+                    <span class="text" th:text="${motorcycle.yearOfIssue}"></span>
+                </li>
+                <li class="list-group-item">
+                    Engine type
+                    <span class="text" th:text="${motorcycle.engineDesignType.nameOfEngineType}"></span>
+                </li>
+                <li class="list-group-item">
+                    Drive type
+                    <span class="text" th:text="${motorcycle.driveType.nameOfDriveType}"></span>
+                </li>
+                <li class="list-group-item">
+                    Cylinders Amount
+                    <span class="text" th:text="${motorcycle.cylindersAmount}"></span>
+                </li>
+                <li class="list-group-item">
+                    Condition
+                    <span class="text" th:text="${motorcycle.condition.nameOfCondition}"></span>
+                </li>
+                <li class="list-group-item">
+                    Engine Volume, cyb.cm.
+                    <span class="text" th:text="${motorcycle.engineVolume}"></span>
+                </li>
+                <li class="list-group-item">
+                    Mileage, km
+                    <span class="text" th:text="${motorcycle.mileage}"></span>
+                </li>
+            </ul>
+            <h5>Owner information</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <span class="text" th:text="${owner.name}"></span>
+                </li>
+                <li class="list-group-item">
+                    <span class="text" th:text="${owner.city}"></span>
+                </li>
+                <li class="list-group-item">
+                    <span class="text" th:text="${owner.phoneNumber}"></span>
+                </li>
+            </ul>
+            <h5>Bargain and Exchange</h5>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    Bargain
+                    <span class="text" th:if="${bargain}">YES</span>
+                    <span class="text" th:if="${!bargain}">NO</span>
+                </li>
+                <li class="list-group-item">
+                    Exchange
+                    <span class="text" th:if="${exchange}">YES</span>
+                    <span class="text" th:if="${!exchange}">NO</span>
+                </li>
+            </ul>
+        </div>
+        <div id="carouselExampleControlsNoTouching" class="carousel slide" style="width: 60%;height: 60%"
+             data-bs-touch="false" data-bs-interval="false">
+            <div class="carousel-inner">
+                <div class="carousel-item active"  th:each="photo : ${photos}">
+                    <img th:src="${photo.url}"
+                         style="width: 50%;height: 50%" class="d-block w-100" alt="...">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControlsNoTouching"
+                    data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControlsNoTouching"
+                    data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="text" style="text-align: center">
+    <p class="fw-bolder">
+        DESCRIPTION
+    </p>
+    <br>
+    <p th:text="${info}"></p>
+</div>
+</body>
+</html>

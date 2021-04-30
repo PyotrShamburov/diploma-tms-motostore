@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<div class="container">
+<form class="row g-3 needs-validation" th:action="@{/user/reg}" th:object="${newUser}" method="post" novalidate>
+    <div class="col-md-4">
+        <label for="validationCustom01" class="form-label">Username</label>
+        <input type="text" class="form-control" id="validationCustom01" th:field="*{username}">
+        <div>
+        <p style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="validationCustom02" class="form-label">Name</label>
+        <input type="text" class="form-control" id="validationCustom02" th:field="*{firstName}">
+        <div>
+        <p style="color: red" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <label for="validationCustomUsername" class="form-label">E-Mail</label>
+        <div class="input-group has-validation">
+            <span class="input-group-text" id="inputGroupPrepend">@</span>
+            <input type="email" class="form-control" id="validationCustomUsername" th:field="*{email}" aria-describedby="inputGroupPrepend"  required>
+            <div>
+                <p style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <label for="validationCustom03" class="form-label">City</label>
+        <input type="text" class="form-control" id="validationCustom03" th:field="*{city}">
+        <div>
+            <p style="color: red" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <label for="validationCustom04" class="form-label">Phone</label>
+        <input type="text" class="form-control" id="validationCustom04" th:field="*{phoneNumber}">
+        <div>
+            <p style="color: red" th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}"></p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <label for="validationCustom05" class="form-label">Password</label>
+        <input type="password" class="form-control" id="validationCustom05" th:field="*{password}">
+        <div>
+            <p style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <label for="validationCustom06" class="form-label">Confirm password</label>
+        <input type="password" class="form-control" id="validationCustom06" name="confirmPassword">
+    </div>
+    <p style="color:red;" th:text="${message}"></p>
+    <div class="col-12">
+        <button type="submit" class="btn btn-outline-success">Register</button>
+    </div>
+</form>
+</div>
+</div>
+</body>
+</html>

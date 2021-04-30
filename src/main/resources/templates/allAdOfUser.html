@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<div class="container" >
+    <div class="row">
+        <div class="col-4" th:include="_userSideMenu.html">
+        </div>
+        <div class="col-6">
+            <p class="fw-bolder">
+                AMOUNT OF MY ANNOUNCEMENTS :
+                <a th:text="${announcements.size()}"></a>
+            </p>
+            <ul class="list-group" th:each="ad : ${announcements}">
+                <li class="list-group-item">
+                    <div class="row g-0">
+                        <div class="col-sm-6 col-md-8">
+                            <a th:href="@{'/ad/show/'+${ad.getId()}}">
+                                <input th:name="adId" type="hidden" th:value="${ad.getId()}">
+                                <span type="text" th:text="${ad.getMotorcycle().brand.nameOfBrand}"></span>
+                                <span type="text" th:text="${ad.getMotorcycle().model.nameOfModel}" ></span>
+                                <span type="text" th:text="${ad.getMotorcycle().engineVolume}"></span>,
+                                <span type="text" th:text="${ad.getMotorcycle().yearOfIssue}"></span>
+                            </a>
+                            <p>
+                                <span type="text" th:text="${ad.getMotorcycle().typeOfMotorcycle.nameOfMotorcycleType}"></span>, volume
+                                <span type="text" th:text="${ad.getMotorcycle().engineVolume}"></span> cyb.cm, mileage
+                                <span type="text" th:text="${ad.getMotorcycle().mileage}"></span> km
+                            </p>
+                            <form th:action="@{'/user/ad/delete/'+${ad.getId()}}" th:method="post">
+                                <input th:name="adId" type="hidden" th:value="${ad.getId()}">
+                                <button  type="submit" class="btn btn-outline-danger">DELETE</button>
+                            </form>
+                            <a th:href="@{'/user/ad/edit/'+${ad.getId()}}" class="btn btn-outline-dark">EDIT</a>
+                        </div>
+                        <div class="col-6 col-md-4">
+                            <img th:src="${ad.getPhotos().get(0).url}"
+                                 style="width: 80%;height: 80%" class="d-block w-100" alt="...">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+</body>
+</html>

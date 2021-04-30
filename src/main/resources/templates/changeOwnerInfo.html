@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Owner Info</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<div class="alert alert-success" role="alert" th:if="${isUpdated}">
+    <h4 class="alert-heading">Congrats!</h4>
+    <p>Owner info has been successfully changed!</p>
+</div>
+<div class="alert alert-danger" role="alert" style="alignment: center" th:if="${isUpdated==false}">
+    <h4 class="alert-heading">Ooops...Something wrong!</h4>
+    <p>Owner info does not updated!</p>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-4" th:include="_userSideMenu.html">
+        </div>
+        <div class="col-6">
+            <form th:action="@{/user/ad/edit/owner}" th:object="${newOwnerDTO}" method="post">
+                <div class="mb-3" style="width: 60%">
+                    <label style="text-align: left" class="form-label">New Name</label>
+                    <textarea class="form-control"  style="width: 250px; height: 20px;" th:name="name" th:text="${currentOwner.name}" rows="5"></textarea>
+                </div>
+                <div class="mb-3" style="width: 60%">
+                    <label style="text-align: left" class="form-label">New Phone number</label>
+                    <textarea class="form-control"  style="width: 250px; height: 20px;" th:name="phoneNumber" th:text="${currentOwner.phoneNumber}" rows="5"></textarea>
+                </div>
+                <div class="mb-3" style="width: 60%">
+                    <label style="text-align: left" class="form-label">New City</label>
+                    <textarea class="form-control"  style="width: 250px; height: 20px;" th:name="city" th:text="${currentOwner.city}" rows="5"></textarea>
+                </div>
+                <button type="submit" class="btn btn-outline-success">Save changes!</button>
+            </form>
+            <br>
+            <div class="form-check" style="text-align: left">
+                <a th:href="@{'/user/ad/edit/'+${adId}}" class="btn btn-outline-dark">GO BACK</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

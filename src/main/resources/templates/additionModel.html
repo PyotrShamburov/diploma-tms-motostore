@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Motorcycle Model</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-4" th:include="_adminSideMenu.html">
+        </div>
+        <div class="col-6">
+            <form th:action="@{/admin/motorcycle/model}" th:object="${newModelDTO}" method="post">
+                <div class="container">
+                   <label>SELECT BRAND</label>
+                    <select class="form-select" aria-label="Default select example" th:field="*{brandId}">
+                        <option th:each="brand : ${allBrands}"
+                                th:value="${brand.id}"
+                                th:text="${brand.nameOfBrand}">
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3" style="width: 60%">
+                    <label style="text-align: left" class="form-label">MODEL</label>
+                    <input type="text" class="form-control" th:field="*{nameOfModel}" placeholder="name of model">
+                </div>
+                <button type="submit" class="btn btn-outline-secondary">Create</button>
+                <p style="color: red" th:if="${#fields.hasErrors('nameOfModel')}" th:errors="*{nameOfModel}"></p>
+                <p style="color: red" th:if="${isError}">Letters and digits between 1 and 10!</p>
+            </form>
+        </div>
+        <div class="accordion accordion-flush" id="accordionFlushExample">
+            <div class="accordion-item" th:each="brand : ${allBrands}">
+                <h2 class="accordion-header" id="flush-headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
+                        <a th:text="${brand.nameOfBrand}"></a>
+                    </button>
+                </h2>
+                <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                    <div class="accordion-body">
+                        <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
+                            <div class="col" th:each="model : ${brand.getMotorcycleModel()}">
+                                <div class="p-3 border bg-light" style="text-align: center">
+                                    <a th:text="${model.nameOfModel}"></a>
+                                    <form th:action="@{/admin/motorcycle/model/delete}" method="post">
+                                        <input type="hidden" name="modelId" th:value="${model.id}">
+                                        <button type="submit" class="btn-close" aria-label="Close"></button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

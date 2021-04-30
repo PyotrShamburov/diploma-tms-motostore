@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Info Selection</title>
+</head>
+<body>
+<div th:include="_header.html"></div>
+<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a th:href="@{/}">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Select Brand</li>
+        <li class="breadcrumb-item active" aria-current="page">Select Model</li>
+        <li class="breadcrumb-item active" aria-current="page">Select Characteristics</li>
+    </ol>
+</nav>
+<div class="container">
+    <div class="col-8">
+        <form class="row g-3" th:action="@{/moto/add/info}" th:object="${newMotorcycleDTO}" method="post">
+            <div class="col-md-6">
+                <label class="form-label">CYLINDERS AMOUNT</label>
+                <select class="form-select" aria-label="Default select example" th:field="*{cylinderAmount}">
+                    <option th:each="number : ${#numbers.sequence(1, 8)}"
+                            th:value="${number}"
+                            th:text="${number}">
+                    </option>
+                </select>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">MOTO TYPE</label>
+                <select class="form-select" aria-label="Default select example" th:field="*{typeId}">
+                    <option th:each="type : ${motoTypes}"
+                            th:value="${type.id}"
+                            th:text="${type.nameOfMotorcycleType}">
+                    </option>
+                </select>
+            </div>
+            <div class="col-12">
+                <label class="form-label">DRIVE TYPE</label>
+                <select class="form-select" aria-label="Default select example" th:field="*{driveTypeId}">
+                    <option th:each="drive : ${driveTypes}"
+                            th:value="${drive.id}"
+                            th:text="${drive.nameOfDriveType}">
+                    </option>
+                </select>
+            </div>
+            <div class="col-12">
+                <label class="form-label">ENGINE TYPE</label>
+                <select class="form-select" aria-label="Default select example" th:field="*{engineTypeId}">
+                    <option th:each="engineType : ${engineTypes}"
+                            th:value="${engineType.id}"
+                            th:text="${engineType.nameOfEngineType}">
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">CONDITION</label>
+                <select class="form-select" aria-label="Default select example" th:field="*{conditionId}">
+                    <option th:each="condition : ${conditions}"
+                            th:value="${condition.id}"
+                            th:text="${condition.nameOfCondition}">
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">ENGINE VOLUME, CYB.CM</label>
+                <select class="form-select" aria-label="Default select example" th:field="*{engineVolume}">
+                    <option th:each="engineVolume : ${#numbers.sequence(50, 1800, 50)}"
+                            th:value="${engineVolume}"
+                            th:text="${engineVolume}">
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="form-label">YEAR OF ISSUE</label>
+                <select class="form-select" aria-label="Default select example" th:field="*{yearOfIssue}">
+                    <option th:each="year : ${#numbers.sequence(1990, 2021)}"
+                            th:value="${year}"
+                            th:text="${year}">
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">MILEAGE</label>
+                <div class="input-group">
+                    <input type="number" class="form-control" th:field="*{mileage}">
+                    <span class="input-group-text">KM</span>
+                </div>
+            </div>
+            <div class="col-12">
+                <button type="submit" class="btn btn-secondary">SET</button>
+            </div>
+            <p style="color: red" th:if="${#fields.hasErrors('mileage')}" th:errors="*{mileage}"></p>
+        </form>
+    </div>
+</div>
+</body>
+</html>
