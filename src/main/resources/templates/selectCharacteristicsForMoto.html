@@ -91,7 +91,7 @@
             <div class="col-12">
                 <button type="submit" class="btn btn-secondary">SET</button>
             </div>
-            <p style="color: red" th:if="${#fields.hasErrors('mileage')}" th:errors="*{mileage}"></p>
+            <p style="color: red" th:if="${isError}" >Can be only positive number!</p>
         </form>
     </div>
 </div>

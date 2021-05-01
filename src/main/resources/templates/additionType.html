@@ -17,7 +17,7 @@
                     <input type="text" class="form-control" th:field="*{nameOfMotorcycleType}" placeholder="name of motorcycle type">
                 </div>
                 <button type="submit" class="btn btn-outline-secondary">Create</button>
-                <p style="color: red" th:if="${#fields.hasErrors('nameOfMotorcycleType')}" th:errors="*{nameOfMotorcycleType}"></p>
+                <p style="color: red" th:if="${isError}">Only use letters between 2 and 10!</p>
             </form>
         </div>
     </div>

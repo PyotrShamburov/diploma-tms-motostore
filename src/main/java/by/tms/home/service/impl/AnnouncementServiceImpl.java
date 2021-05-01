@@ -189,7 +189,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         Announcement adById = (Announcement) getAdById(adId);
         Price adByIdPrice = (Price) adById.getPrice();
         adByIdPrice.setCurrency(Currency.valueOf(priceDTO.getCurrency()));
-        adByIdPrice.setValue(priceDTO.getValue());
+        adByIdPrice.setValue(Integer.parseInt(priceDTO.getValue()));
         adById.setPrice(adByIdPrice);
         announcementRepository.save(adById);
     }

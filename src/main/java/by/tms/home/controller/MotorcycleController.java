@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -42,7 +43,7 @@ public class MotorcycleController {
     public ModelAndView getBrandSelectionPage(ModelAndView modelAndView) {
         modelAndView.setViewName("selectBrandForMoto");
         List<Brand> allBrands = (List<Brand>) brandService.getAllBrands();
-        log.info("All brands: "+allBrands);
+        log.info("All brands: " + allBrands);
         modelAndView.addObject("allBrands", allBrands);
         modelAndView.addObject("newMotorcycleDTO", new MotorcycleDTO());
         modelAndView.addObject("newMotorcycle", new Motorcycle());
@@ -50,8 +51,8 @@ public class MotorcycleController {
     }
 
     @PostMapping(path = "/add/brand")
-    public ModelAndView addBrandToMoto(@ModelAttribute("newMotorcycleDTO")MotorcycleDTO motorcycleDTO,
-                                       @ModelAttribute("newMotorcycle")Motorcycle motorcycle, HttpSession httpSession,
+    public ModelAndView addBrandToMoto(@ModelAttribute("newMotorcycleDTO") MotorcycleDTO motorcycleDTO,
+                                       @ModelAttribute("newMotorcycle") Motorcycle motorcycle, HttpSession httpSession,
                                        ModelAndView modelAndView) {
         modelAndView.setViewName("selectBrandForMoto");
         Brand brandByNameFromDTO = (Brand) brandService.getByNameOfBrand(motorcycleDTO.getNameOfBrand());
@@ -59,7 +60,7 @@ public class MotorcycleController {
         httpSession.setAttribute("brandOfNewMoto", brandByNameFromDTO);
         httpSession.setAttribute("newMotorcycle", motorcycle);
         modelAndView.setViewName("redirect:/moto/add/model");
-        log.info("Moto with added Brand :"+motorcycle);
+        log.info("Moto with added Brand :" + motorcycle);
         return modelAndView;
     }
 
@@ -67,7 +68,7 @@ public class MotorcycleController {
     public ModelAndView getModelSelectionPage(HttpSession httpSession, ModelAndView modelAndView) {
         modelAndView.setViewName("selectModelForMoto");
         Brand brandOfNewMoto = (Brand) httpSession.getAttribute("brandOfNewMoto");
-        log.info("Selected brand :"+brandOfNewMoto);
+        log.info("Selected brand :" + brandOfNewMoto);
         List<MotorcycleModel> modelsOfBrand = motorcycleModelService.getModelsByBrandId(brandOfNewMoto.getId());
         modelAndView.addObject("modelsOfBrand", modelsOfBrand);
         modelAndView.addObject("newMotorcycleDTO", new MotorcycleDTO());
@@ -75,14 +76,14 @@ public class MotorcycleController {
     }
 
     @PostMapping(path = "/add/model")
-    public ModelAndView addModelForMoto(@ModelAttribute("newMotorcycleDTO")MotorcycleDTO motorcycleDTO, HttpSession httpSession, ModelAndView modelAndView) {
+    public ModelAndView addModelForMoto(@ModelAttribute("newMotorcycleDTO") MotorcycleDTO motorcycleDTO, HttpSession httpSession, ModelAndView modelAndView) {
         modelAndView.setViewName("selectModelForMoto");
         Motorcycle motorcycleFromSession = (Motorcycle) httpSession.getAttribute("newMotorcycle");
         MotorcycleModel motorcycleModelByNameFromDTO = motorcycleModelService.getMotorcycleModelByName(motorcycleDTO.getNameOfModel());
         motorcycleFromSession.setModel(motorcycleModelByNameFromDTO);
         httpSession.setAttribute("newMotorcycle", motorcycleFromSession);
         modelAndView.setViewName("redirect:/moto/add/info");
-        log.info("post method add/model"+motorcycleFromSession+" hash"+motorcycleDTO.hashCode());
+        log.info("post method add/model" + motorcycleFromSession + " hash" + motorcycleDTO.hashCode());
         return modelAndView;
     }
 
@@ -98,11 +99,12 @@ public class MotorcycleController {
     }
 
     @PostMapping(path = "/add/info")
-    public ModelAndView addInfoForMoto(@Valid @ModelAttribute("newMotorcycleDTO")MotorcycleDTO motorcycleDTO, BindingResult bindingResult,
-                                       HttpSession httpSession, ModelAndView modelAndView) {
+    public ModelAndView addInfoForMoto(@Valid @ModelAttribute("newMotorcycleDTO") MotorcycleDTO motorcycleDTO, BindingResult bindingResult,
+                                       RedirectAttributes redirectAttributes, HttpSession httpSession, ModelAndView modelAndView) {
         modelAndView.setViewName("selectCharacteristicsForMoto");
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("selectCharacteristicsForMoto");
+            redirectAttributes.addFlashAttribute("isError", true);
+            modelAndView.setViewName("redirect:/moto/add/info");
         } else {
             Motorcycle motorcycleFromSession = (Motorcycle) httpSession.getAttribute("newMotorcycle");
             Motorcycle motorcycle = (Motorcycle) motorcycleService.setInfoFieldsFromDTO(motorcycleFromSession, motorcycleDTO);

@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -71,11 +72,12 @@ public class AnnouncementController {
     }
 
     @PostMapping(path = "/price")
-    public ModelAndView createAndAddPriceToAd(@Valid @ModelAttribute("newPrice")Price price, BindingResult bindingResult,
+    public ModelAndView createAndAddPriceToAd(@Valid @ModelAttribute("newPrice")Price price, BindingResult bindingResult, RedirectAttributes redirectAttributes,
                                               Principal principal, HttpSession httpSession, ModelAndView modelAndView) {
         modelAndView.setViewName("addPriceToAnnouncement");
         if (bindingResult.hasErrors()) {
-            modelAndView.setViewName("addPriceToAnnouncement");
+            redirectAttributes.addFlashAttribute("isError", true);
+            modelAndView.setViewName("redirect:/ad/price");
         } else {
             Announcement announcementFromSession = (Announcement) httpSession.getAttribute("newAnnouncement");
             announcementFromSession.setPrice(price);
@@ -85,8 +87,8 @@ public class AnnouncementController {
             announcementFromSession.setUser(byUsername);
             Announcement announcementFromDataBase = (Announcement) announcementService.addAdToDatabase(announcementFromSession);
             httpSession.setAttribute("newAdId", announcementFromDataBase.getId());
-            modelAndView.setViewName("redirect:/ad/photos");
             log.info("Saved in database AD without photo :" + announcementFromSession);
+            modelAndView.setViewName("redirect:/ad/photos");
         }
         return modelAndView;
     }

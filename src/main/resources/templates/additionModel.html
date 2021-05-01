@@ -26,7 +26,6 @@
                     <input type="text" class="form-control" th:field="*{nameOfModel}" placeholder="name of model">
                 </div>
                 <button type="submit" class="btn btn-outline-secondary">Create</button>
-                <p style="color: red" th:if="${#fields.hasErrors('nameOfModel')}" th:errors="*{nameOfModel}"></p>
                 <p style="color: red" th:if="${isError}">Letters and digits between 1 and 10!</p>
             </form>
         </div>

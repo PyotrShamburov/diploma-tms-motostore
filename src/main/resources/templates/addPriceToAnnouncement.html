@@ -33,7 +33,7 @@
             </div>
             <br>
             <button type="submit" class="btn btn-secondary">SET</button>
-            <p style="color: red" th:if="${#fields.hasErrors('value')}" th:errors="*{value}"></p>
+            <p style="color: red" th:if="${isError}">Can be only positive number!</p>
         </div>
     </form>
 </div>

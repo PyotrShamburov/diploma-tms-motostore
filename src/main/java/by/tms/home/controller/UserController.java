@@ -225,13 +225,16 @@ public class UserController {
     }
 
     @PostMapping(path = "/ad/edit/mileage")
-    public ModelAndView changeMileage(@RequestParam("mileage")int newMileage,HttpSession httpSession, RedirectAttributes redirectAttributes,
+    public ModelAndView changeMileage(@RequestParam("mileage")String mileage,HttpSession httpSession, RedirectAttributes redirectAttributes,
                                       ModelAndView modelAndView) {
         modelAndView.setViewName("changeMileage");
         boolean isUpdated = true;
-        if (newMileage > 0) {
-            long editAdId = (long) httpSession.getAttribute("editAdId");
-            announcementService.updateMileage(editAdId, newMileage);
+        if (!"".equals(mileage)) {
+            int newMileage = Integer.parseInt(mileage);
+            if (newMileage > 0) {
+                long editAdId = (long) httpSession.getAttribute("editAdId");
+                announcementService.updateMileage(editAdId, newMileage);
+            }
         } else {
             isUpdated = false;
             redirectAttributes.addFlashAttribute("message", "Mileage can be only positive number!");
@@ -310,7 +313,7 @@ public class UserController {
                                         RedirectAttributes redirectAttributes, ModelAndView modelAndView) {
         modelAndView.setViewName("changePrice");
         boolean isUpdated = true;
-        if (priceDTO.getValue() > 0) {
+        if (!"".equals(priceDTO.getValue())) {
             long adId = (long) httpSession.getAttribute("editAdId");
             announcementService.updatePriceOfAd(adId, priceDTO);
         } else {
