@@ -21,17 +21,20 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public Image addImageToDatabase(Image image) {
+        log.info("New saved image: "+image);
         return imageRepository.save(image);
     }
 
     @Override
     public void deleteImageById(long id) {
+        log.info("Image deleted! Id :"+id);
         imageRepository.deleteById(id);
     }
 
     @Override
     public Image createImageFromFileAndSetAd(Announcement announcement, MultipartFile multipartFile) {
         Image image = (Image) cloudinaryService.uploadFile(multipartFile);
+        log.info("New image from file: "+image);
         image.setAnnouncement(announcement);
         return addImageToDatabase(image);
     }

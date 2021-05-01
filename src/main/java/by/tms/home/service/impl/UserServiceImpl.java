@@ -1,6 +1,5 @@
 package by.tms.home.service.impl;
 
-import by.tms.home.entity.Announcement;
 import by.tms.home.entity.Owner;
 import by.tms.home.entity.Role;
 import by.tms.home.entity.User;
@@ -10,7 +9,6 @@ import by.tms.home.repository.UserRepository;
 import by.tms.home.service.AnnouncementService;
 import by.tms.home.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.omg.PortableInterceptor.ServerRequestInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,8 +16,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -37,8 +33,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public User getByUsername(String username) {
         Optional<User> byUsername = (Optional<User>) userRepository.getByUsername(username);
         if (byUsername.isPresent()) {
+            log.warn("User with username ["+username+"] found!");
             return byUsername.get();
         }
+        log.warn("User with username ["+username+"] not found!");
         throw new UserNotFoundException("User with this username not found!");
     }
 
@@ -49,14 +47,17 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.setPassword(encodedPassword);
             user.setRole(Role.USER);
             userRepository.save(user);
+            log.info("New saved user in database: "+user);
             return true;
         }
+        log.warn("User with username ["+user.getUsername()+"] already exist!");
         throw new UserAlreadyExistException("User with this username already exist!");
     }
 
     @Override
     public boolean containsUserWithSameUsername(User user) {
         String checkedUsername = user.getUsername();
+        log.info("Contains user by username: "+checkedUsername);
         return userRepository.existsByUsername(checkedUsername);
     }
 
@@ -67,12 +68,15 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         owner.setName(byUsername.getFirstName());
         owner.setCity(byUsername.getCity());
         owner.setPhoneNumber(byUsername.getPhoneNumber());
+        log.info("New owner from user: "+owner);
         return owner;
     }
 
     @Override
     public void updateUserFirstName(String newUserFirstName, String username) {
         User byUsername = (User) getByUsername(username);
+        log.info("User for change first name: "+byUsername);
+        log.info("New first name: "+newUserFirstName);
         byUsername.setFirstName(newUserFirstName);
         userRepository.save(byUsername);
     }
@@ -80,6 +84,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void updateUserPhoneNumber(String username, String newPhoneNumber) {
         User byUsername = (User) getByUsername(username);
+        log.info("User for change phone number: "+byUsername);
+        log.info("New phone number: "+newPhoneNumber);
         byUsername.setPhoneNumber(newPhoneNumber);
         userRepository.save(byUsername);
     }
@@ -87,6 +93,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public void updateUserEmail(String username, String newEmailAddress) {
         User byUsername = (User) getByUsername(username);
+        log.info("User for change email: "+byUsername);
+        log.info("New email address: "+newEmailAddress);
         byUsername.setEmail(newEmailAddress);
         userRepository.save(byUsername);
     }
@@ -112,6 +120,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        log.info("Loaded user by username for detail service: "+s);
         return userRepository.findByUsername(s);
     }
 }

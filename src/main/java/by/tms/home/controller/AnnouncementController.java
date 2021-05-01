@@ -44,6 +44,7 @@ public class AnnouncementController {
     public ModelAndView getPageForCreateAd(ModelAndView modelAndView) {
         modelAndView.setViewName("selectBargainExchangeForAd");
         modelAndView.addObject("newAnnouncement", new Announcement());
+        log.info("GET method create announcement!");
         return modelAndView;
     }
 
@@ -52,6 +53,7 @@ public class AnnouncementController {
                                     Principal principal, ModelAndView modelAndView) {
         modelAndView.setViewName("selectBargainExchangeForAd");
         String username = (String) principal.getName();
+        log.info("Creating AD, principal name :"+username);
         Motorcycle newSavedMoto = (Motorcycle) httpSession.getAttribute("newSavedMoto");
         Owner ownerFromUser = (Owner) userService.getOwnerFromUser(username);
         announcement.setOwner(ownerFromUser);
@@ -68,6 +70,7 @@ public class AnnouncementController {
         modelAndView.setViewName("addPriceToAnnouncement");
         modelAndView.addObject("currencyList", Currency.values());
         modelAndView.addObject("newPrice", new Price());
+        log.info("GET method add price!");
         return modelAndView;
     }
 
@@ -77,6 +80,7 @@ public class AnnouncementController {
         modelAndView.setViewName("addPriceToAnnouncement");
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("isError", true);
+            log.warn("Errors during addition price to AD!");
             modelAndView.setViewName("redirect:/ad/price");
         } else {
             Announcement announcementFromSession = (Announcement) httpSession.getAttribute("newAnnouncement");
@@ -99,7 +103,7 @@ public class AnnouncementController {
         long newAdId = (long) httpSession.getAttribute("newAdId");
         Announcement adById = (Announcement) announcementService.getAdById(newAdId);
         modelAndView.addObject("photos", adById.getPhotos());
-        log.info("Add photo step AD: "+adById);
+        log.info("Add photo GET method AD: "+adById);
         return modelAndView;
     }
 
@@ -138,6 +142,7 @@ public class AnnouncementController {
     @GetMapping(path = "/success")
     public ModelAndView getAfterAdditionAdSuccessPage(ModelAndView modelAndView) {
         modelAndView.setViewName("successAdditionPage");
+        log.info("Success page for addition new AD!");
         return modelAndView;
     }
 
@@ -154,6 +159,7 @@ public class AnnouncementController {
         modelAndView.addObject("exchange", adById.isExchange());
         modelAndView.addObject("dateOfPublishing", adById.getDateOfPublishing());
         modelAndView.addObject("photos", adById.getPhotos());
+        log.info("AD for show page: "+adById);
         return modelAndView;
     }
 
@@ -169,6 +175,7 @@ public class AnnouncementController {
         modelAndView.addObject("newSearchAdDTO", new AnnouncementSearchDTO());
         List<Announcement> allAnnouncements = (List<Announcement>) announcementService.getAllAnnouncements();
         modelAndView.addObject("announcements", allAnnouncements);
+        log.info("GET method for watch all announcements!");
         return modelAndView;
     }
 

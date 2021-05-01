@@ -2,6 +2,7 @@ package by.tms.home.controller;
 
 import by.tms.home.entity.AnnouncementSearchDTO;
 import by.tms.home.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping(path = "/")
+@Slf4j
 public class HomeController {
     @Autowired
     private BrandService brandService;
@@ -36,6 +38,7 @@ public class HomeController {
         modelAndView.addObject("allConditions", conditionService.getAllConditions());
         modelAndView.addObject("newSearchAdDTO", new AnnouncementSearchDTO());
         modelAndView.addObject("listOfTopAd", announcementService.getRandomAdToHomePage(3));
+        log.info("GET method of home page!");
         return modelAndView;
     }
 }

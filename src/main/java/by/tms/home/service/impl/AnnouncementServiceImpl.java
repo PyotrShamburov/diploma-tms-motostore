@@ -37,9 +37,9 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private CloudinaryService cloudinaryService;
 
     @Override
-    @Transactional
     public Announcement addAdToDatabase(Announcement announcement) {
         setDateOfPublishingToAd(announcement);
+        log.info("New AD saved in database!AD :"+announcement);
        return announcementRepository.save(announcement);
     }
 
@@ -47,24 +47,28 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public Announcement getAdById(long id) {
         Optional<Announcement> byId = (Optional<Announcement>) announcementRepository.getById(id);
         if (byId.isPresent()) {
+            log.info("Found AD with id: "+id);
             return byId.get();
         }
+        log.warn("AD not found with id: "+id);
         throw new EntityNotFoundException("Ad with this id not found!");
     }
 
     @Override
-    @Transactional
     public void deleteAdById(long id) {
         if (announcementRepository.existsById(id)) {
             announcementRepository.deleteById(id);
+            log.info("Deleted AD with ID: "+id);
             return;
         }
+        log.warn("Not found AD with ID: "+id);
         throw new EntityNotFoundException("Ad with this ID not found!");
     }
 
     @Override
     public void setDateOfPublishingToAd(Announcement ad) {
         LocalDate localDate = LocalDate.now();
+        log.info("New local date for AD: "+localDate);
         String pattern = "dd MMMM yyyy";
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(pattern);
         localDate.format(dateTimeFormatter);
@@ -120,6 +124,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
 
     @Override
     public List<Announcement> getRandomAdToHomePage(long amount) {
+        log.info("Top AD for home page, amount: "+amount);
         return announcementRepository.findTopByMotorcycle_Id(amount);
     }
 
@@ -152,6 +157,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public void updateAdComments(long adId, String newComments) {
         Announcement adById = (Announcement) getAdById(adId);
+        log.info("Updated AD ID:"+adById+" , new comment: "+newComments);
         adById.setComments(newComments);
         announcementRepository.save(adById);
     }
@@ -168,6 +174,7 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     @Override
     public void updateCondition(long adId, long conditionId) {
         Announcement adById = (Announcement) getAdById(adId);
+        log.info("AD for update condition: "+adById+", new condition: "+conditionId);
         MotorcycleCondition motorcycleConditionById = (MotorcycleCondition) conditionService.getMotorcycleConditionById(conditionId);
         adById.getMotorcycle().setCondition(motorcycleConditionById);
         announcementRepository.save(adById);
@@ -177,6 +184,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public void updateOwnerInfo(long adId, OwnerDTO ownerDTO) {
         Announcement adById = (Announcement) getAdById(adId);
         Owner owner = (Owner) adById.getOwner();
+        log.info("Current owner: "+owner);
+        log.info("Owner DTO for update: "+ownerDTO);
         owner.setName(ownerDTO.getName());
         owner.setPhoneNumber(ownerDTO.getPhoneNumber());
         owner.setCity(ownerDTO.getCity());
@@ -188,6 +197,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public void updatePriceOfAd(long adId, PriceDTO priceDTO) {
         Announcement adById = (Announcement) getAdById(adId);
         Price adByIdPrice = (Price) adById.getPrice();
+        log.info("Current price for update: "+adByIdPrice);
+        log.info("Price DTO for update: "+priceDTO);
         adByIdPrice.setCurrency(Currency.valueOf(priceDTO.getCurrency()));
         adByIdPrice.setValue(Integer.parseInt(priceDTO.getValue()));
         adById.setPrice(adByIdPrice);

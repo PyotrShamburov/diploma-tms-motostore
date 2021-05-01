@@ -37,6 +37,7 @@ public class UserController {
     @GetMapping(path = "/auth")
     public ModelAndView getAuthorizationPage(ModelAndView modelAndView) {
         modelAndView.setViewName("authorizationPage");
+        log.info("GET authorization page!");
         return modelAndView;
     }
 
@@ -44,6 +45,7 @@ public class UserController {
     public ModelAndView getRegistrationPage(ModelAndView modelAndView) {
         modelAndView.setViewName("registrationPage");
         modelAndView.addObject("newUser", new User());
+        log.info("GET registration page!");
         return modelAndView;
     }
 
@@ -52,11 +54,14 @@ public class UserController {
                                      ModelAndView modelAndView) {
         modelAndView.setViewName("registrationPage");
         if (bindingResult.hasErrors()) {
+            log.warn("Errors during registration of user: "+user.getUsername());
             modelAndView.setViewName("registrationPage");
         } else if (confirmedPassword.equals(user.getPassword())) {
+            log.info("Pass registration of user :"+user.getUsername());
             userService.saveUserInDatabase(user);
             modelAndView.setViewName("redirect:/user/auth");
         } else {
+            log.warn("Password confirmation process is failed!");
             modelAndView.setViewName("registrationPage");
             modelAndView.addObject("message", "Password confirmation failed!");
         }
@@ -68,8 +73,10 @@ public class UserController {
         modelAndView.setViewName("allAdOfUser");
         String username = (String) principal.getName();
         User byUsername = (User) userService.getByUsername(username);
+        log.info("Current user: "+byUsername);
         List<Announcement> announcements = (List<Announcement>) byUsername.getAnnouncements();
         modelAndView.addObject("announcements", announcements);
+        log.info("All AD of current user: "+announcements);
         return modelAndView;
     }
 
@@ -78,6 +85,7 @@ public class UserController {
         modelAndView.setViewName("userSettingsPage");
         String username = (String) principal.getName();
         User byUsername = (User) userService.getByUsername(username);
+        log.info("Settings page of user: "+byUsername);
         modelAndView.addObject("activeUser", byUsername);
         return modelAndView;
     }
@@ -92,10 +100,14 @@ public class UserController {
     public ModelAndView changeUserName(@RequestParam("newName") String newFirstName, Principal principal, ModelAndView modelAndView) {
         Pattern pattern = Pattern.compile("^[A-Z]?[a-z]{3,15}$");
         if (pattern.matcher(newFirstName).matches()) {
+            log.info("New valid name: "+newFirstName);
             String username = principal.getName();
+            log.info("Name of current user: "+username);
             userService.updateUserFirstName(newFirstName, username);
             modelAndView.addObject("isChanged", true);
+            log.info("Username has been changed!");
         } else {
+            log.warn("New name is not valid :"+newFirstName);
             modelAndView.addObject("isChanged", false);
             modelAndView.addObject("message", "Wrong format! Only characters(3 - 15)!");
         }
@@ -114,10 +126,14 @@ public class UserController {
                                         ModelAndView modelAndView) {
         Pattern pattern = Pattern.compile("^(\\+\\d{12})|(\\d{11})$");
         if (pattern.matcher(newPhoneNumber).matches()) {
+            log.info("New valid phone number: "+newPhoneNumber);
             String username = (String) principal.getName();
+            log.info("Name of current user: "+username);
             userService.updateUserPhoneNumber(username, newPhoneNumber);
             modelAndView.addObject("isChanged", true);
+            log.info("Phone number has been changed!");
         } else {
+            log.warn("Phone number is not valid!");
             modelAndView.addObject("isChanged", false);
             modelAndView.addObject("message", "Invalid phone number format!");
         }
@@ -136,10 +152,14 @@ public class UserController {
                                         ModelAndView modelAndView) {
         Pattern pattern = Pattern.compile("[A-Za-z0-9._%+-]{2,10}@[A-Za-z0-9.-]{3,6}\\.[A-Za-z]{2,4}");
         if (pattern.matcher(newEmail).matches()) {
+            log.info("New valid email :"+newEmail);
             String username = (String) principal.getName();
+            log.info("Name of current user: "+username);
             userService.updateUserEmail(username, newEmail);
             modelAndView.addObject("isChanged", true);
+            log.info("Email address has been changed!");
         } else {
+            log.warn("Email adress is not valid!");
             modelAndView.addObject("isChanged", false);
             modelAndView.addObject("message", "Invalid email format!");
         }
@@ -160,20 +180,25 @@ public class UserController {
         Pattern pattern = Pattern.compile("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$");
         boolean isChanged = false;
         String username = (String) principal.getName();
+        log.info("Username of current user: "+username);
         if (pattern.matcher(newPassword).matches()) {
+            log.info("New password is valid!");
             if (newPassword.equals(confirmPassword)) {
-                log.info(newPassword + "= new pass equals confirmed pass =" + confirmPassword);
+                log.info("New password equals confirmed password!");
                 boolean isOldPassTrue = (boolean) userService.updateUserPassword(username, oldPassword, newPassword);
                 if (isOldPassTrue) {
                     log.info("Update password method is done!");
                     isChanged = true;
                 } else {
+                    log.warn("Old password is wrong!");
                     modelAndView.addObject("message", "Check old password!");
                 }
             } else {
+                log.warn("Password confirmation is failed!");
                 modelAndView.addObject("message", "Password confirmation failed!");
             }
         } else {
+            log.warn("New password is not valid!");
             modelAndView.addObject("message", "New password is not valid!");
         }
         modelAndView.addObject("isChanged", isChanged);
@@ -184,6 +209,7 @@ public class UserController {
     @PostMapping(path = "/ad/delete/{adId}")
     public ModelAndView deleteAdFromDatabase(@PathVariable("adId") long adId, ModelAndView modelAndView) {
         announcementService.deleteAdById(adId);
+        log.info("Start AD deleting! ID of AD :"+adId);
         modelAndView.setViewName("redirect:/user/ad/deleted");
         return modelAndView;
     }
@@ -191,6 +217,7 @@ public class UserController {
     @GetMapping(path = "/ad/deleted")
     public ModelAndView getDeleteSuccessPage(ModelAndView modelAndView) {
         modelAndView.setViewName("successDeletePage");
+        log.info("AD has been deleted!");
         return modelAndView;
     }
 
@@ -198,6 +225,7 @@ public class UserController {
     public ModelAndView getAdEditPage(@PathVariable("adId")long adId, HttpSession httpSession, ModelAndView modelAndView) {
         modelAndView.setViewName("editAdPage");
         Announcement adById = (Announcement) announcementService.getAdById(adId);
+        log.info("Start editing AD with ID :"+adId);
         modelAndView.addObject("ad", adById);
         httpSession.setAttribute("editAdId", adId);
         return modelAndView;
@@ -207,7 +235,9 @@ public class UserController {
     public ModelAndView changeComments(@RequestParam("comment")String comment, HttpSession httpSession, RedirectAttributes redirectAttributes, ModelAndView modelAndView) {
         modelAndView.setViewName("editAdPage");
         long editAdId = (long) httpSession.getAttribute("editAdId");
+        log.info("Edit AD ID: "+editAdId);
         announcementService.updateAdComments(editAdId, comment);
+        log.info("New comment: "+comment);
         modelAndView.addObject("isUpdated", true);
         redirectAttributes.addFlashAttribute("isUpdated", true);
         modelAndView.setViewName("redirect:/user/ad/edit/"+editAdId);
@@ -218,7 +248,9 @@ public class UserController {
     public ModelAndView getMileageEditPage(HttpSession httpSession, ModelAndView modelAndView) {
         modelAndView.setViewName("changeMileage");
         long adId = (long) httpSession.getAttribute("editAdId");
+        log.info("Change mileage for AD with ID :"+adId);
         int currentMileage = (int) announcementService.getAdById(adId).getMotorcycle().getMileage();
+        log.info("Current mileage: "+currentMileage);
         modelAndView.addObject("currentMileage", currentMileage);
         modelAndView.addObject("adId", adId);
         return modelAndView;
@@ -232,10 +264,12 @@ public class UserController {
         if (!"".equals(mileage)) {
             int newMileage = Integer.parseInt(mileage);
             if (newMileage > 0) {
+                log.info("New mileage is valid! Value :"+newMileage);
                 long editAdId = (long) httpSession.getAttribute("editAdId");
                 announcementService.updateMileage(editAdId, newMileage);
             }
         } else {
+            log.warn("New mileage is not valid! Value: "+mileage);
             isUpdated = false;
             redirectAttributes.addFlashAttribute("message", "Mileage can be only positive number!");
         }
@@ -248,6 +282,7 @@ public class UserController {
     public ModelAndView getConditionChangePage(HttpSession httpSession, ModelAndView modelAndView) {
         modelAndView.setViewName("changeCondition");
         long adId = (long) httpSession.getAttribute("editAdId");
+        log.info("Change condition for AD with ID: "+adId);
         MotorcycleCondition condition = (MotorcycleCondition) announcementService.getAdById(adId).getMotorcycle().getCondition();
         modelAndView.addObject("currentCondition", condition);
         modelAndView.addObject("allConditions", motorcycleConditionService.getAllConditions());
@@ -261,6 +296,7 @@ public class UserController {
         modelAndView.setViewName("changeCondition");
         long editAdId = (long) httpSession.getAttribute("editAdId");
         long conditionId = (long) motorcycleDTO.getConditionId();
+        log.info("New condition ID: "+conditionId);
         announcementService.updateCondition(editAdId, conditionId);
         redirectAttributes.addFlashAttribute("isUpdated", true);
         modelAndView.setViewName("redirect:/user/ad/edit/condition");
@@ -272,6 +308,7 @@ public class UserController {
         modelAndView.setViewName("changeOwnerInfo");
         long adId = (long) httpSession.getAttribute("editAdId");
         Owner currentOwner = (Owner) announcementService.getAdById(adId).getOwner();
+        log.info("Change Owner info: Current owner "+currentOwner);
         modelAndView.addObject("currentOwner", currentOwner);
         modelAndView.addObject("newOwnerDTO", new OwnerDTO());
         modelAndView.addObject("adId", adId);
@@ -285,8 +322,10 @@ public class UserController {
         modelAndView.setViewName("changeOwnerInfo");
         boolean isUpdated = false;
         if (bindingResult.hasErrors()) {
+            log.warn("Errors during change owner info!");
             modelAndView.setViewName("changeOwnerInfo");
         } else {
+            log.info("All new params is valid! Owner updating!");
             long adId = (long) httpSession.getAttribute("editAdId");
             announcementService.updateOwnerInfo(adId, ownerDTO);
             isUpdated = true;
@@ -301,6 +340,7 @@ public class UserController {
         modelAndView.setViewName("changePrice");
         long adId = (long) httpSession.getAttribute("editAdId");
         Price currentPrice = (Price) announcementService.getAdById(adId).getPrice();
+        log.info("Change AD price! Current price: "+currentPrice);
         modelAndView.addObject("currentPrice", currentPrice);
         modelAndView.addObject("allCurrency", Currency.values());
         modelAndView.addObject("newPriceDTO", new PriceDTO());
@@ -314,9 +354,11 @@ public class UserController {
         modelAndView.setViewName("changePrice");
         boolean isUpdated = true;
         if (!"".equals(priceDTO.getValue())) {
+            log.info("Price params is valid!");
             long adId = (long) httpSession.getAttribute("editAdId");
             announcementService.updatePriceOfAd(adId, priceDTO);
         } else {
+            log.warn("New price params is not valid!");
             isUpdated = false;
             redirectAttributes.addFlashAttribute("message", "Price can be positive number only!");
         }
@@ -364,6 +406,7 @@ public class UserController {
         modelAndView.setViewName("changePhotos");
         long editAdId = (long) httpSession.getAttribute("editAdId");
         announcementService.photoCheckAndFinishOrSetDefaultPhoto(editAdId);
+        log.info("End of changing photo!");
         modelAndView.setViewName("redirect:/user/ad/edit/"+editAdId);
         return modelAndView;
     }

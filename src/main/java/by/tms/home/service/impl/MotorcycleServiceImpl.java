@@ -4,6 +4,7 @@ import by.tms.home.entity.motorcycle.Motorcycle;
 import by.tms.home.entity.motorcycle.MotorcycleDTO;
 import by.tms.home.repository.motorcycle.MotorcycleRepository;
 import by.tms.home.service.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,14 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class MotorcycleServiceImpl implements MotorcycleService {
 
     @Autowired
     private MotorcycleRepository motorcycleRepository;
-    @Autowired
-    private BrandService brandService;
-    @Autowired
-    private MotorcycleModelService motorcycleModelService;
     @Autowired
     private MotorcycleTypeService motorcycleTypeService;
     @Autowired
@@ -29,8 +27,8 @@ public class MotorcycleServiceImpl implements MotorcycleService {
     private DriveTypeService driveTypeService;
 
     @Override
-    @Transactional
     public Motorcycle saveMotorcycle(Motorcycle motorcycle) {
+        log.info("New motorcycle for save: "+motorcycle);
        return motorcycleRepository.save(motorcycle);
     }
 
@@ -44,6 +42,7 @@ public class MotorcycleServiceImpl implements MotorcycleService {
         int yearOfIssue = (int) motorcycleDTO.getYearOfIssue();
         int mileage = motorcycleDTO.getMileage();
         int engineVolume = (int) motorcycleDTO.getEngineVolume();
+        log.info("Moto DTO for motorcycle: "+motorcycleDTO);
         motorcycle.setTypeOfMotorcycle(motorcycleTypeService.getMotorcycleTypeById(typeId));
         motorcycle.setCondition(motorcycleConditionService.getMotorcycleConditionById(conditionId));
         motorcycle.setEngineDesignType(engineTypeService.getEngineTypeById(engineTypeId));
@@ -52,6 +51,7 @@ public class MotorcycleServiceImpl implements MotorcycleService {
         motorcycle.setCylindersAmount(cylinderAmount);
         motorcycle.setEngineVolume(engineVolume);
         motorcycle.setMileage(mileage);
+        log.info("New motorcycle: "+motorcycle);
         return motorcycle;
     }
 

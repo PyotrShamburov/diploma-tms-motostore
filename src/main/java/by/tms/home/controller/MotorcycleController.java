@@ -95,6 +95,7 @@ public class MotorcycleController {
         modelAndView.addObject("conditions", motorcycleConditionService.getAllConditions());
         modelAndView.addObject("driveTypes", driveTypeService.getAllDriveTypes());
         modelAndView.addObject("newMotorcycleDTO", new MotorcycleDTO());
+        log.info("GET method addition info to motorcycle!");
         return modelAndView;
     }
 
@@ -104,6 +105,7 @@ public class MotorcycleController {
         modelAndView.setViewName("selectCharacteristicsForMoto");
         if (bindingResult.hasErrors()) {
             redirectAttributes.addFlashAttribute("isError", true);
+            log.warn("Errors during addition info to motorcycle!");
             modelAndView.setViewName("redirect:/moto/add/info");
         } else {
             Motorcycle motorcycleFromSession = (Motorcycle) httpSession.getAttribute("newMotorcycle");
