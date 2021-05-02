@@ -9,17 +9,14 @@
 <div class="container" style="alignment: center">
     <p class="text" style="text-align: center">
         <h2>Your Ad has been deleted!</h2>
-            <a th:href="@{/user/allAnnouncements}" >
-                <h3>
-                    Go to profile!
-                </h3>
-            </a>
-    <a th:href="@{/moto/add/brand}" >
-        <h3>
-            Create new Ad!
-        </h3>
-    </a>
     </p>
+    <div class="form-check" style="text-align: left">
+        <a th:href="@{/user/allAnnouncements}" class="btn btn-outline-dark">GO TO PROFILE</a>
+    </div>
+    <br>
+    <div class="form-check" style="text-align: left">
+        <a th:href="@{/moto/add/brand}" class="btn btn-outline-dark">CREATE NEW ANNOUNCEMENT</a>
+    </div>
 </div>
 </body>
 </html>

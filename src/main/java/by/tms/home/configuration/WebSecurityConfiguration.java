@@ -31,13 +31,13 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/")
+                .antMatchers("/","/ad/show/**","/ad/search/**")
                       .permitAll()
-                .antMatchers( "/user/reg", "/user/auth","/ad/show/**","/ad/search/**")
+                .antMatchers( "/user/reg", "/user/auth")
                       .anonymous()
                 .antMatchers("/admin/**")
                       .hasAuthority("ADMIN")
-                .antMatchers("/user/ad/**")
+                .antMatchers("/user/ad/**","/user/**")
                       .hasAuthority("USER")
                       .anyRequest().authenticated()
                 .and()

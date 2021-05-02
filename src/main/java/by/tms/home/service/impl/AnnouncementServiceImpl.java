@@ -2,9 +2,11 @@ package by.tms.home.service.impl;
 
 import by.tms.home.entity.*;
 import by.tms.home.entity.exception.EntityNotFoundException;
+import by.tms.home.entity.motorcycle.Motorcycle;
 import by.tms.home.entity.motorcycle.MotorcycleCondition;
 import by.tms.home.entity.PriceDTO;
 import by.tms.home.repository.AnnouncementRepository;
+import by.tms.home.repository.motorcycle.MotorcycleRepository;
 import by.tms.home.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +37,8 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     private ImageService imageService;
     @Autowired
     private CloudinaryService cloudinaryService;
+    @Autowired
+    private MotorcycleService motorcycleService;
 
     @Override
     public Announcement addAdToDatabase(Announcement announcement) {
@@ -166,8 +170,9 @@ public class AnnouncementServiceImpl implements AnnouncementService {
     public void updateMileage(long adId, int newMileage) {
         Announcement adById = (Announcement) getAdById(adId);
         log.info("Old mileage :"+adById.getMotorcycle().getMileage());
-        adById.getMotorcycle().setMileage(newMileage);
-        announcementRepository.save(adById);
+        Motorcycle motorcycle = (Motorcycle) adById.getMotorcycle();
+        motorcycle.setMileage(newMileage);
+        motorcycleService.saveMotorcycle(motorcycle);
         log.info("New saved moto: "+getAdById(adId));
     }
 
@@ -176,8 +181,9 @@ public class AnnouncementServiceImpl implements AnnouncementService {
         Announcement adById = (Announcement) getAdById(adId);
         log.info("AD for update condition: "+adById+", new condition: "+conditionId);
         MotorcycleCondition motorcycleConditionById = (MotorcycleCondition) conditionService.getMotorcycleConditionById(conditionId);
-        adById.getMotorcycle().setCondition(motorcycleConditionById);
-        announcementRepository.save(adById);
+        Motorcycle motorcycle = (Motorcycle) adById.getMotorcycle();
+        motorcycle.setCondition(motorcycleConditionById);
+        motorcycleService.saveMotorcycle(motorcycle);
     }
 
     @Override

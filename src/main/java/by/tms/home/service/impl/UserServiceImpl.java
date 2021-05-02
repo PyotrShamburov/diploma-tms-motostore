@@ -23,8 +23,6 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
-    private AnnouncementService announcementService;
-    @Autowired
     private UserRepository userRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;

@@ -32,67 +32,67 @@
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     Type
-                    <span class="text" th:text="${motorcycle.typeOfMotorcycle.nameOfMotorcycleType}"></span>
+                    <span class="text" style="font-style: italic" th:text="${motorcycle.typeOfMotorcycle.nameOfMotorcycleType}"></span>
                 </li>
                 <li class="list-group-item">
                     Year Of Issue
-                    <span class="text" th:text="${motorcycle.yearOfIssue}"></span>
+                    <span class="text" style="font-style: italic" th:text="${motorcycle.yearOfIssue}"></span>
                 </li>
                 <li class="list-group-item">
                     Engine type
-                    <span class="text" th:text="${motorcycle.engineDesignType.nameOfEngineType}"></span>
+                    <span class="text" style="font-style: italic" th:text="${motorcycle.engineDesignType.nameOfEngineType}"></span>
                 </li>
                 <li class="list-group-item">
                     Drive type
-                    <span class="text" th:text="${motorcycle.driveType.nameOfDriveType}"></span>
+                    <span class="text" style="font-style: italic" th:text="${motorcycle.driveType.nameOfDriveType}"></span>
                 </li>
                 <li class="list-group-item">
                     Cylinders Amount
-                    <span class="text" th:text="${motorcycle.cylindersAmount}"></span>
+                    <span class="text" style="font-style: italic" th:text="${motorcycle.cylindersAmount}"></span>
                 </li>
                 <li class="list-group-item">
                     Condition
-                    <span class="text" th:text="${motorcycle.condition.nameOfCondition}"></span>
+                    <span class="text" style="font-style: italic" th:text="${motorcycle.condition.nameOfCondition}"></span>
                 </li>
                 <li class="list-group-item">
                     Engine Volume, cyb.cm.
-                    <span class="text" th:text="${motorcycle.engineVolume}"></span>
+                    <span class="text" style="font-style: italic" th:text="${motorcycle.engineVolume}"></span>
                 </li>
                 <li class="list-group-item">
                     Mileage, km
-                    <span class="text" th:text="${motorcycle.mileage}"></span>
+                    <span class="text" style="font-style: italic" th:text="${motorcycle.mileage}"></span>
                 </li>
             </ul>
             <h5>Owner information</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    <span class="text" th:text="${owner.name}"></span>
+                    <span class="text" style="font-style: italic" th:text="${owner.name}"></span>
                 </li>
                 <li class="list-group-item">
-                    <span class="text" th:text="${owner.city}"></span>
+                    <span class="text" style="font-style: italic" th:text="${owner.city}"></span>
                 </li>
                 <li class="list-group-item">
-                    <span class="text" th:text="${owner.phoneNumber}"></span>
+                    <span class="text" style="font-style: italic" th:text="${owner.phoneNumber}"></span>
                 </li>
             </ul>
             <h5>Bargain and Exchange</h5>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
                     Bargain
-                    <span class="text" th:if="${bargain}">YES</span>
-                    <span class="text" th:if="${!bargain}">NO</span>
+                    <span class="text" style="font-style: italic" th:if="${bargain}">YES</span>
+                    <span class="text" style="font-style: italic" th:if="${!bargain}">NO</span>
                 </li>
                 <li class="list-group-item">
                     Exchange
-                    <span class="text" th:if="${exchange}">YES</span>
-                    <span class="text" th:if="${!exchange}">NO</span>
+                    <span class="text" style="font-style: italic" th:if="${exchange}">YES</span>
+                    <span class="text" style="font-style: italic" th:if="${!exchange}">NO</span>
                 </li>
             </ul>
         </div>
         <div id="carouselExampleControlsNoTouching" class="carousel slide" style="width: 60%;height: 60%"
              data-bs-touch="false" data-bs-interval="false">
-            <div class="carousel-inner">
-                <div class="carousel-item active"  th:each="photo : ${photos}">
+            <div class="carousel-inner" th:each="photo : ${photos}">
+                <div class="carousel-item active"  >
                     <img th:src="${photo.url}"
                          style="width: 50%;height: 50%" class="d-block w-100" alt="...">
                 </div>

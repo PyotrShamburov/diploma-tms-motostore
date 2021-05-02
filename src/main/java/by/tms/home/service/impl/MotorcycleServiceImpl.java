@@ -54,5 +54,4 @@ public class MotorcycleServiceImpl implements MotorcycleService {
         log.info("New motorcycle: "+motorcycle);
         return motorcycle;
     }
-
 }
