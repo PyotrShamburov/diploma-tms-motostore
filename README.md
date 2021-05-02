@@ -9,4 +9,8 @@ Spring Security<br>
 Thymeleaf<br>
 H2 database<br>
 Slf4J<br>
-JUnit5
+JUnit5<br>
+Hibernate-validator<br>
+Validation-api<br>
+Lombok<br>
+Cloudinary service.
